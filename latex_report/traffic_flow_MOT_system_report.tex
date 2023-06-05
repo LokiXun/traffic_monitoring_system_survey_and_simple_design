@@ -140,7 +140,7 @@ Kalman Filter
 Hungarian Algorithms
 
 \subsection{Object Detection}
-Faster-RCNN, YoloV1-V5, DETR.
+Faster-RCNN, YoloV1-V5.
 
 
 \section{Traffic Datasets And Evaluating Metrics}
@@ -161,13 +161,57 @@ at various altitudes \cite{bisio2022systematic}.
 
 Also, UAV Detection and Tracking (UAVDT) \cite{du2018unmanned} contains 80k images/Frames, with 1080$\times$540  resolutions, taken in 10-70m altitude with multiple camera-view. Mostly it is used for SOT(single object tracking) task. \cite{jensen2020presenting} proposed in 2020, an aerial dataset of a road scene is produced a static and a drone based camera, contains 4 object classes and 3.1k images in 1920$\times$ 1080 resolution and mainly used for traffic object detection task. Furthermore, Stanford Drone \cite{robicquet2016learning} includes six categories for objects. And the bicyclists, car and bus targets could be used for traffic surveillance task. 
 
+\subsection{Object Detection Metrics}
+To assess the performance of object detection, precision, recall and Average Precision (AP), followed by the detection speed are the most widely used metrics. Usually binary predictions results are accessed with respect to the Ground Truth (GT) as True Positive (TP), True Negative (TN), False Positive (FP) and False Negative (FN). However, Detectors usually generates lots of Bounding Boxes (BBoxes) that are not required to be predicted. So that TN is usually not used for accessing detector's performance \cite{padilla2020survey}.
+The evaluating metrics, precision and recall, of the object detection algorithm are defined as follows:
 
-\subsection{Object Tracking Task}
-MOT metrics
+\begin{equation}
+	\label{eq:PR_metrics}
+\begin{aligned}
+	&Precision = \frac{TP}{TP+FP} \\
+	&Recall = \frac{TP}{TP+FN}
+\end{aligned}
+\end{equation}
 
-\subsection{Object Detection Task}
-object detection's metrics.
 
+Given in \cite{du2018unmanned}, since precision and recall metrics do not include TN prediction, the Precision-Recall (PR)-curve is also employed as an evaluating metric to examine the performance of the detector, particularly for the unbalanced datasets. An optimal detector's PR curve should have high AP, which refer to  Area Under the Precision-Recall Curve(AUC-PR). The zig-zag pattern in PR curve may cause difficult to calculate the AP value. So that 11-point or all-point interpolation methods is used in \cite{everingham2015pascal}, which may decrease the AP value. Increasing the IoU threshold, on the other hand, decreases the AP value, and vice versa. For multi-class situation, predictions are made separately for each category, and the mean AP (mAP) metric is used to assess the overall performance of object detectors \cite{bisio2022systematic}.
+\begin{equation}
+	\label{eq:mAP_metrics}
+\begin{aligned}
+	&mAP = \frac{1}{m} \sum_{j=1}^{m} AP_j \\
+	&where~m~denotes~class~number.
+\end{aligned}
+\end{equation}
+
+
+
+
+\subsection{Object Tracking Metrics}
+Some canonical object tracker \cite{bewley2016simple}, \cite{wojke2017simple} have been evaluated using the following metrics, which are summarized in \cite{bisio2022systematic}:
+\begin{itemize}
+	\item Recall: It indicates ratio of correctly matched objects among all GT objects.
+	\item Precision: It measures the ratio of correctly matched objects among all output objects.
+	\item False Alarms: The number of FAs/frame.
+	\item FP: The number of false positives or false detections.
+	\item FN: The number of FN/frame or missed detections.
+	\item GT: The number of GT trajectories.
+	\item Mostly Tracked (MT): The number of target trajectories covered by tracker for more than or at least 80\% of the trajectory length.
+	\item Mostly Lost (ML): The number of target trajectories covered by tracker for less than or at least 20\% of the trajectory length.
+	\item Fragments (Frag): The number of times a tracked trajectory is interrupted.
+	\item IDentity Switches (IDS): The number of times an object ID changes to another ID.
+	\item MOTA(MOT Accuracy): is the main metric in MOT(multi object tracking) to access the tracking ability and not considering the detection accuracy. illustrated in Equation \ref{eq:MOTA_MOTP}
+	\item MOTP:(MOT Precision): reflects the average dissimilarity between the obtained true positives and corresponding GT targets. illustrated in Equation \ref{eq:MOTA_MOTP}
+	
+\end{itemize}
+\begin{equation}
+	\label{eq:MOTA_MOTP}
+	\begin{aligned}
+		&MOTA = 1 - \frac{\sum_t(FN_t + FP_t + IDSW_t)}{\sum_t GT_t}\\
+		&MOTP = \frac{\sum_{t,i} d_{t,i}}{\sum_t{c_t}} \\
+	\end{aligned}
+\end{equation}
+
+In an optimal tracker, precision, recall, MT, and GT metrics should provide high values, whereas FA, FN, FP, ML, Frag, and IDS indicators should be low. MOTA and MOTP values should be higher for an efficient and accurate tracker. MOTA and MOTP are illustrated in Equation \ref{eq:MOTA_MOTP}, where $FN_t$ is False Negative, $FP$ is False Positive, $IDSW$ is ID Switch, $GT$ is Ground Truth object Number. $d_{ij}$ is the distance between predicted and ground truth position, which usually using the overlap rate.
 
 
 \section{Our System Framework}

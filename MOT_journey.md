@@ -86,18 +86,42 @@ SOT aims to estimate an unknown visual target trajectory when o**nly an initial 
 
 - Classicial Metrics
 
-  - FP：False Positive，即真实情况中没有，但跟踪算法误检出有目标存在。
+  - FP：False Positive
+
+    第t帧中，跟踪器检测到了的bounding box但是在ground truth中却不存在bounding box的个数
+
   - FN：False Negative，即真实情况中有，但跟踪算法漏检了。
+
+    指的是在第t帧中，跟踪器漏检了的bounding box但是在ground truth中存在bounding box的个数
+
   - IDS：ID Switch，目标ID切换的次数。
+
+    fragmentation是在第*t*帧当中发生的ID分配错误(ID switch)。如果在ground truth第*j*个轨迹的第*t*帧之前，跟踪器(tracker)把该轨迹的ID都预测正确了，但是第*t+1*帧预测错误了，那么ID switch的个数+1
+
   - Frag
 
 - CLEAR MOT metrics
   06 年提出的 CLEAR MOT **更多衡量的是检测的质量，而不是跟踪的效果**
 
+  > [博客 MOTA 参考](https://www.cnblogs.com/yanwei-li/p/8670658.html)
+  
   - MOTA(Multiple Object Tracking Accuracy) 多目标跟踪准确度 :star:
-    **可以较好地反映跟踪准确度，是当前 MOT 的主要评估指标**。但 MOTA 不能反映 MOT 算法对同一个目标轨迹长时间跟踪性能表现。
-  - MOTP：Multiple Object Tracking Precision，多目标跟踪精度。表示得到的检测框和真实标注框之间的重合程度。
-
+    **MOTA给出了一个非常直观的衡量跟踪器在检测物体和保持轨迹时的性能，与物体位置的估计精度无关，是当前 MOT 的主要评估指标**。
+  
+  $$
+  MOTA = 1 - \frac{\sum_t(FN_t + FP_t + IDSW_t)}{\sum_t GT_t}\\
+  $$
+  
+  FN为False Negative，FP为False Positive，IDSW为ID Switch，GT为Ground Truth 物体的数量。MOTA考虑了tracking中所有帧中对象匹配错误，主要是FN，FP，ID Switch。MOTA取值应小于100，当跟踪器产生的错误超过了场景中的物体，MOTA会为负数。需要注意的是，此处的MOTA以及MOTP是计算所有帧的相关指标再进行平均（既加权平均值），而不是计算每帧的rate然后进行rate的平均。
+  
+  - MOTP(Multiple Object Tracking Precision)
+    $$
+    MOTP = \frac{\sum_{t,i} d_{t,i}}{\sum_t{c_t}}
+    $$
+    d 为检测目标 i 和给它分配的ground truth之间在所有帧中的平均度量距离，在这里是使用bonding box的overlap rate来进行度量。c为在当前帧匹配成功的数目。**MOTP主要量化检测器的定位精度，几乎不包含与跟踪器实际性能相关的信息。**
+  
+  
+  
 - ID scores(identification scores) 
   基于匹配的指标，所以能更好**的衡量数据关联的好坏**
 
