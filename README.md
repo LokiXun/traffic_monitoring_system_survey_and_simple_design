@@ -80,8 +80,8 @@ Using an moving status drone to take traffics videos, we would like to **extract
 ### Traffic Volume :man_factory_worker:
 
 > - [Simultaneously detecting and counting dense vehicles from drone images](https://ieeexplore.ieee.org/abstract/document/8648370)
->
-> - [[Urban traffic density estimation based on ultrahigh-resolution UAV video and deep neural network](https://ieeexplore.ieee.org/abstract/document/8536405/)]
+>- [Urban traffic density estimation based on ultrahigh-resolution UAV video and deep neural network](https://ieeexplore.ieee.org/abstract/document/8536405/)
+> - [Methods of analyzing traffic imagery collected from aerial platforms](https://ieeexplore.ieee.org/abstract/document/1253218/)
 
 Say in Human's way: **(Count vehicles which passed the assigned region in short period)**
 
@@ -118,8 +118,10 @@ $$
 
 
 
+## Methodology
 
-## Preprocessing
+
+### Preprocessing
 
 - Unify the lighting condition
 
@@ -137,6 +139,21 @@ $$
 - BEV view
 
   > [reference](https://zhuanlan.zhihu.com/p/507722579)
+
+### Object detection
+
+- Night time data deficit
+
+  [Domain adaptation from daytime to nighttime: A situation-sensitive vehicle detection and traffic flow parameter estimation framework](https://www.sciencedirect.com/science/article/pii/S0968090X20308433) 
+
+  using cycle-GAN to generate night time image
+
+  - Cycle-GAN
+    [Unpaired image-to-image translation using cycle-consistent adversarial networks](http://openaccess.thecvf.com/content_iccv_2017/html/Zhu_Unpaired_Image-To-Image_Translation_ICCV_2017_paper.html)
+
+  
+
+
 
 
 

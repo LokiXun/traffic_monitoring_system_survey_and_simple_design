@@ -122,6 +122,18 @@ venv.bak/
 # mkdocs documentation
 /site
 
+# LaTeX documentation
+/latex_report/*
+!latex_report/traffic_flow_MOT_system_report.tex
+!latex_report/figures/
+latex_report/figures/TongjiCover_SongFont.jpg
+latex_report/figures/视觉编码与感知报告封面.pdf
+## ECCV template
+!latex_report/*.sty
+!latex_report/egbib.bib
+!latex_report/ieee_fullname.bst
+
+
 
 # User-specific stuff:
 *.pptx
@@ -129,13 +141,12 @@ venv.bak/
 *.mp4
 *.drawio.bkp
 *.pt
+*.zip
+*.tar
 !src/video/demo.mov
 **/TJ_course_matrial/
 /src/video/*
 !src/video/demo.mov
 !src/video/demo_process_result.avi
-
-/latex_report/*
-!latex_report/traffic_flow_MOT_system_report.tex
 
 docs/traffic_monitoring_system_survey/*
